@@ -1,3 +1,5 @@
+![Banner](banner.png)
+
 # dm-data-format-randomizer
 Randomly changes the format of data fields to one of several predefined formats (e.g., different date formats, phone number formats, address formats), providing data variety while masking the original format. - Focused on Tools designed to generate or mask sensitive data with realistic-looking but meaningless values
 
