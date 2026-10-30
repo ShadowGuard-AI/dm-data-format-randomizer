@@ -21,9 +21,13 @@ class DataFormatRandomizer:
         try:
             self.fake = faker.Faker(locale)
             self.locale = locale
-        except faker.exceptions.FakerError as e:
+        except Exception as e:
+            # There is no faker.exceptions.FakerError in current Faker (a
+            # bad locale raises AttributeError); naming a nonexistent
+            # exception in the except clause masked the real error with a
+            # second AttributeError.
             logging.error(f"Error initializing Faker with locale '{locale}': {e}")
-            raise  # Re-raise the exception so the program halts if Faker init fails
+            raise
 
         self.date_formats = ["%Y-%m-%d", "%m/%d/%Y", "%d %B, %Y", "%B %d, %Y", "%m-%d-%y"]
         self.phone_formats = ["+1-XXX-XXX-XXXX", "(XXX) XXX-XXXX", "XXX-XXX-XXXX", "XXX.XXX.XXXX"]
@@ -52,7 +56,9 @@ class DataFormatRandomizer:
         try:
             phone_format = random.choice(self.phone_formats)
             # Replace X's with random digits
-            phone_number = ''.join([self.fake.random_digit() if char == 'X' else char for char in phone_format])
+            # random_digit returns an int; it has to be stringified or the
+            # join raises TypeError and phone generation always failed.
+            phone_number = ''.join([str(self.fake.random_digit()) if char == 'X' else char for char in phone_format])
             return phone_number
         except Exception as e:
             logging.error(f"Error generating random phone number: {e}")
@@ -108,6 +114,7 @@ def setup_argparse():
     """
     parser = argparse.ArgumentParser(description="Randomly changes the format of data fields to one of several predefined formats.")
     parser.add_argument("-t", "--type", dest="data_type", required=True,
+                        choices=["date", "phone", "address", "name", "email", "text"],
                         help="The type of data to randomize (date, phone, address, name, email, text).")
     parser.add_argument("-n", "--number", dest="number_of_samples", type=int, default=1,
                         help="The number of samples to generate. Defaults to 1.")
@@ -136,9 +143,6 @@ def main():
             if randomized_data is not None:
                 print(randomized_data)
 
-    except faker.exceptions.FakerError as e:
-        logging.error(f"Faker Error: {e}")
-        sys.exit(1)
     except Exception as e:
         logging.error(f"An unexpected error occurred: {e}")
         sys.exit(1)
