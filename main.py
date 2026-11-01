@@ -69,6 +69,11 @@ class DataFormatRandomizer:
         Generates a random address with a randomly selected address format.
         """
         try:
+            # The layouts are United States shaped whatever locale was
+            # requested: city, state, and postcode fields are filled
+            # with values from the chosen locale but arranged in the
+            # US order, and every field value is drawn even for the
+            # layouts that never use it.
             address_format = random.choice(self.address_formats)
             return address_format.format(
                 street_address=self.fake.street_address(),
@@ -139,6 +144,10 @@ def main():
         randomizer = DataFormatRandomizer(args.locale)
 
         for _ in range(args.number_of_samples):
+            # A sample whose generation failed comes back None and is
+            # skipped without a word, so asking for five samples can
+            # print fewer than five lines and still exit 0. The short
+            # count is the only sign anything failed.
             randomized_data = randomizer.randomize_data_type(args.data_type)
             if randomized_data is not None:
                 print(randomized_data)
