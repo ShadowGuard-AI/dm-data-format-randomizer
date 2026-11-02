@@ -18,14 +18,14 @@ Randomly changes the format of data fields to one of several predefined formats 
 ![Major separator](sep-heavy.svg)
 
 ## Install
-`git clone https://github.com/ShadowStrikeHQ/dm-data-format-randomizer`
+`git clone https://github.com/ShadowGuard-AI/dm-data-format-randomizer`
 
-> Plant label: the install line names an older organisation. It stands as published here, and the website corrects it in the open with the correction labelled.
+> Plant label, corrected in this wave: the install line formerly named an older organisation; it now names ShadowGuard-AI. The website carries the same correction, labelled as a correction.
 
 ![Minor separator](sep-light.svg)
 
 ## Usage
-`./dm-data-format-randomizer [params]`
+`python3 main.py -t TYPE [options]`
 
 > Plant label: no behavior notes exist in this README. Nothing in the live file adds rules beyond the chapters printed here.
 
@@ -35,16 +35,16 @@ Randomly changes the format of data fields to one of several predefined formats 
 
 ## Parameters
 - `-h`: Show help message and exit
-- `-t`: No description provided
-- `-n`: The number of samples to generate. Defaults to 1.
-- `-l`: The Faker locale to use. Defaults to en_US.
+- `-t`, `--type`: The type of data to randomize. Required. Choices: date, phone, address, name, email, text.
+- `-n`, `--number`: The number of samples to generate. Defaults to 1.
+- `-l`, `--locale`: The Faker locale to use. Defaults to en_US.
 
-> Plant label: one listed control has no printed description. The `-t` line above stands exactly as the live file prints it, with the gap stated and nothing invented to fill it.
+> Plant label, corrected in this wave: the `-t` line formerly had no printed description; it now carries its required status and its six choices.
 
 ![Minor separator](sep-light.svg)
 
 ## License
-Copyright (c) ShadowStrikeHQ
+This project is released under the license in the [LICENSE](LICENSE) file. See LICENSE for details.
 
 ![Major separator](sep-heavy.svg)
 
